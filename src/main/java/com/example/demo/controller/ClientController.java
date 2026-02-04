@@ -39,7 +39,7 @@ public class ClientController {
             Client C = new Client(email, motdepasse, nom, prenom);
             cs.inscrire(C);
 
-            return new RedirectView("/store/home");
+            return new RedirectView("/store/client/connexion");
         }
 
         //Afficher le formulaire de connexion
@@ -55,8 +55,10 @@ public class ClientController {
             Optional<Client> client= cs.connecter(email, motdepasse);
 
             if (client.isPresent()) {
-                session.setAttribute("client", client);
-                return new ModelAndView(new RedirectView("/store/home"));
+                session.setAttribute("client", client.get());
+                //return new ModelAndView(new RedirectView("/store/home"));
+                return new ModelAndView(new RedirectView("/store/commande"));
+
             }
             ModelAndView mw = new ModelAndView("clients/inscription");
             mw.addObject("error", "Email ou mot de passe incorrect");

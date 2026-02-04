@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mes commandes</title>
+</head>
+<body>
+
+<h2>Mes commandes</h2>
+
+<a href="/store/commande/creation">Créer une commande</a>
+
+<ul>
+    <li th:each="com : ${commande}">
+        <strong>Commande n° <span th:text="${com.id}"></span> :</strong>
+        <ul th:each="ligne : ${com.lignesCommande}">
+            <ul>
+                <li>
+                    Produit : <span th:text="${ligne.libelle}"></span>
+                </li>
+                <li>
+                    Quantité : <span th:text="${ligne.quantite}"></span>
+                </li>
+                <li>
+                    Prix unitaire : <span th:text="${ligne.pu}"></span> €
+                </li>
+            </ul>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>

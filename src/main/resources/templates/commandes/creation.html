@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nouvelle commande</title>
+</head>
+<body>
+
+<h2>Créer une commande</h2>
+
+<form action="/store/commande/creation" method="post">
+
+    Libellé produit :
+    <input type="text" name="libelle"/><br/>
+
+    Quantité :
+    <input type="number" name="quantite"/><br/>
+
+    Prix unitaire :
+    <input type="number" step="0.01" name="pu"/><br/>
+
+    <button type="submit">Créer la commande</button>
+</form>
+
+</body>
+</html>
