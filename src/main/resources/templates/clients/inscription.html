@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inscription</title>
+</head>
+<body>
+<h2>Créer un compte</h2>
+
+<form action="/store/client/inscription" method="post">
+    Email : <input type="email" name="email"/><br/>
+    Mot de passe : <input type="password" name="motdepasse"/><br/>
+    Nom : <input type="text" name="nom"/><br/>
+    Prénom : <input type="text" name="prenom"/><br/>
+    <button type="submit">S'inscrire</button>
+</form>
+
+</body>
+</html>
