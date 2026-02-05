@@ -53,6 +53,10 @@
         <button type="submit">Ajouter ligne</button>
     </form>
 
+    <div>
+        <a th:href="@{/store/commande/{id}/imprimer(id=${com.id})}">Imprimer</a>
+    </div>
+
     <hr>
 </div>
 </body>

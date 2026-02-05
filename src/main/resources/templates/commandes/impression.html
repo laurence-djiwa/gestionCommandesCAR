@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Ma commande</title>
+    </head>
+    <body>
+
+    <h1>MA COMMANDE N°<span th:text="${commande.id}"></span> :</h1>
+
+
+
+    <hr>
+
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Prix total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="ligne : ${commande.lignes}">
+                    <td th:text="${ligne.libelle}"></td>
+                    <td th:text="${ligne.quantite}"></td>
+                    <td th:text="${ligne.pu}"></td>
+                    <td th:text="${ligne.prixTotal}"></td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    <h3>
+        Total commande :
+        <span th:text="${commande.totalCommande}"></span> €
+    </h3>
+
+    <br>
+        <div>
+            <a href="/store/commande">Retour aux commandes</a>
+        </div>
+
+    </body>
+</html>

@@ -31,6 +31,14 @@ public class Commande {
         ligne.setCommande(this);
         
     }
+
+    public double getTotalCommande(){
+        double totalCommande = 0.0;
+        for (LigneCommande ligne : lignes){
+            totalCommande += ligne.getPrixTotal();
+        }
+        return totalCommande;
+    }
     
 
 }

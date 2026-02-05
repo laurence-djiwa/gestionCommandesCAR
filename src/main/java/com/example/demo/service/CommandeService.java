@@ -53,4 +53,9 @@ public class CommandeService {
     public void supprimerLigne(Integer ligneId) {
         ligneRepo.deleteById(ligneId);
     }
+
+    public Commande trouverCommande(Integer id){
+        return commanderepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commande inexistante"));
+    }
 }

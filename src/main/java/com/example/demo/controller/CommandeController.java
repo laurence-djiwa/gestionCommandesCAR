@@ -54,4 +54,15 @@ public class CommandeController {
         cs.supprimerLigne(id);
         return new RedirectView("/store/commande");
     }
+
+    @GetMapping("/{id}/imprimer")
+    public ModelAndView imprimerCommande(@PathVariable Integer id){
+
+        ModelAndView mv = new ModelAndView("commandes/impression");  //le fichier html dans template
+        mv.addObject("commande", cs.trouverCommande(id));
+
+        return mv;
+    }
+
+
 }

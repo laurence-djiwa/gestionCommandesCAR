@@ -60,4 +60,8 @@ public class LigneCommande {
     public Commande getCommande() {
         return commande;
     }
+
+    public double getPrixTotal(){
+        return quantite*pu;
+    }
 }
