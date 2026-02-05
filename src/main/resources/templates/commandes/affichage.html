@@ -9,24 +9,51 @@
 
 <a href="/store/commande/creation">Créer une commande</a>
 
-<ul>
-    <li th:each="com : ${commande}">
-        <strong>Commande n° <span th:text="${com.id}"></span> :</strong>
-        <ul th:each="ligne : ${com.lignesCommande}">
-            <ul>
-                <li>
-                    Produit : <span th:text="${ligne.libelle}"></span>
-                </li>
-                <li>
-                    Quantité : <span th:text="${ligne.quantite}"></span>
-                </li>
-                <li>
-                    Prix unitaire : <span th:text="${ligne.pu}"></span> €
-                </li>
-            </ul>
-        </ul>
-    </li>
-</ul>
 
+<hr>
+
+<div th:each="com : ${commande}">
+        <h3>Commande n° <span th:text="${com.id}"></span> :</h3>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="ligne : ${com.lignes}">
+                <td th:text="${ligne.libelle}"></td>
+                <td th:text="${ligne.quantite}"></td>
+                <td th:text="${ligne.pu}"></td>
+                <!--{id} est la variable d'url dans CommandeController.java-->
+                <td>
+                    <form th:action="@{/store/commande/ligne/{id}/supprimer(id=${ligne.idLigne})}" method="post">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <br>
+
+    <form th:action="@{/store/commande/{id}/ajouter-ligne(id=${com.id})}"
+          method="post">
+
+        <input type="text" name="libelle" placeholder="Produit" required>
+        <input type="number" name="quantite" placeholder="Quantité" required>
+        <input type="number" step="0.01" name="pu" placeholder="Prix unitaire" required>
+
+        <button type="submit">Ajouter ligne</button>
+    </form>
+
+    <hr>
+</div>
 </body>
 </html>

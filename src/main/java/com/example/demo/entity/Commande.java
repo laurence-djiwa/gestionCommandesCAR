@@ -22,7 +22,7 @@ public class Commande {
         return id;
     }
 
-    public List<LigneCommande> getLignesCommande() {
+    public List<LigneCommande> getLignes() {
         return lignes;
     }
     

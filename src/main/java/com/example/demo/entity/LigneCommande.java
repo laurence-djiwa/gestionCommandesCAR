@@ -7,7 +7,7 @@ public class LigneCommande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idligne;
+    private Integer idLigne;
     private String libelle;
     private int quantite;
     private double pu;
@@ -25,6 +25,10 @@ public class LigneCommande {
 
     public LigneCommande(){
 
+    }
+
+    public Integer getIdLigne(){
+        return idLigne;
     }
 
     public String getLibelle() {
