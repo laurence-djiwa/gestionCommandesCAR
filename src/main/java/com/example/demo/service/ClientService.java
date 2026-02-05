@@ -33,6 +33,14 @@ public class ClientService {
 
         }
 
+        public Client authentifier(String email, String password) {
+            Client client = clientrepo.findByEmail(email);
+            if (client != null && client.getMdp().equals(password)) {
+                return client;
+            }
+            return null;
+        }
+
 
 
     }

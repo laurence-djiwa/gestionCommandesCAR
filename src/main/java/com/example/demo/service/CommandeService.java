@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Commande;
-import com.example.demo.entity.CommandeRepository;
-import com.example.demo.entity.LigneCommande;
-import com.example.demo.entity.LigneCommandeRepository;
+import com.example.demo.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +24,7 @@ public class CommandeService {
         return C;
     }*/
 
+    /*
     public Commande creerUneLigneDeCommande (String libelle, int quantite, double pu){
 
         Commande commande = new Commande();
@@ -35,10 +33,21 @@ public class CommandeService {
         commande.ajouterLigne(ligne);
         commanderepo.save(commande);
         return commande;
+    }*/
+    public Commande creerCommandePourClient(Client client) {
+        Commande commande = new Commande();
+        commande.setClient(client);
+        return commanderepo.save(commande);
     }
 
+
+    /*
     public Iterable<Commande> commandesDuClient() { //pour afficher
         return commanderepo.findAll();
+    }*/
+
+    public List<Commande> commandesDuClient(String email) {
+        return commanderepo.findByClientEmail(email);
     }
 
     public void ajouterLigne(Integer commandeId, String libelle, int quantite, double pu) {

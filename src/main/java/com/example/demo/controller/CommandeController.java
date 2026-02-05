@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Client;
 import com.example.demo.entity.Commande;
 import com.example.demo.entity.LigneCommande;
 import com.example.demo.service.CommandeService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +20,14 @@ public class CommandeController {
         this.cs = cs;
     }
 
+    private Client verifierClientConnecte(HttpSession session) {//Vérifier si le client est connecté
+        Client client = (Client) session.getAttribute("clientConnecte");
+        if (client == null) {
+            throw new RuntimeException("Client non connecté"); // ou redirection
+        }
+        return client;
+    }
+
     @GetMapping("/creation")
     public ModelAndView formCommande(){
         return new ModelAndView("commandes/creation");
@@ -26,18 +36,24 @@ public class CommandeController {
     @PostMapping("/creation")
     public RedirectView creationCommande(@RequestParam String libelle,
                                          @RequestParam Integer quantite,
-                                         @RequestParam double pu){
+                                         @RequestParam double pu,
+                                         HttpSession session){
 
-        cs.creerUneLigneDeCommande(libelle, quantite, pu);
+        Client client = verifierClientConnecte(session);
+
+        /*cs.creerUneLigneDeCommande(libelle, quantite, pu);*/
+        Commande commande = cs.creerCommandePourClient(client);
+        cs.ajouterLigne(commande.getId(), libelle, quantite, pu);
         return new RedirectView("/store/commande");
     }
 
+    /*
     @GetMapping
     public ModelAndView listeCommandes() {
         ModelAndView mv = new ModelAndView("commandes/affichage");
         mv.addObject("commande", cs.commandesDuClient());
         return mv;
-    }
+    }*/
 
     @PostMapping("/{id}/ajouter-ligne")
     public RedirectView ajouterLigne(@PathVariable Integer id,
@@ -55,12 +71,36 @@ public class CommandeController {
         return new RedirectView("/store/commande");
     }
 
+    /*
     @GetMapping("/{id}/imprimer")
     public ModelAndView imprimerCommande(@PathVariable Integer id){
 
         ModelAndView mv = new ModelAndView("commandes/impression");  //le fichier html dans template
         mv.addObject("commande", cs.trouverCommande(id));
 
+        return mv;
+    }*/
+
+    @GetMapping
+    public ModelAndView listeCommandes(HttpSession session) {
+        Client client = verifierClientConnecte(session);
+
+        ModelAndView mv = new ModelAndView("commandes/affichage");
+        mv.addObject("commande", cs.commandesDuClient(client.getEmail()));
+        return mv;
+    }
+
+    @GetMapping("/{id}/imprimer")
+    public ModelAndView imprimerCommande(@PathVariable Integer id, HttpSession session) {
+        Client client = verifierClientConnecte(session);
+
+        Commande commande = cs.trouverCommande(id);
+        if (commande == null || !commande.getClient().getEmail().equals(client.getEmail())) {
+            return new ModelAndView("redirect:/store/commande");
+        }
+
+        ModelAndView mv = new ModelAndView("commandes/impression");
+        mv.addObject("commande", commande);
         return mv;
     }
 

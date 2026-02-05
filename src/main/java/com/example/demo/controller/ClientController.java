@@ -50,12 +50,14 @@ public class ClientController {
 
         //Traitement de la connexion
         @PostMapping("/connexion")
-        public ModelAndView connexion(@RequestParam String email, @RequestParam String motdepasse, HttpSession session) {
+        public ModelAndView connexion(@RequestParam String email,
+                                      @RequestParam String motdepasse,
+                                      HttpSession session) {
 
             Optional<Client> client= cs.connecter(email, motdepasse);
 
             if (client.isPresent()) {
-                session.setAttribute("client", client.get());
+                session.setAttribute("clientConnecte", client.get());
                 //return new ModelAndView(new RedirectView("/store/home"));
                 return new ModelAndView(new RedirectView("/store/commande"));
 

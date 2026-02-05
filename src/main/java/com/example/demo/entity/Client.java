@@ -1,6 +1,11 @@
 package com.example.demo.entity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Client {
@@ -14,6 +19,8 @@ public class Client {
         private String nom;
         private String prenom;
 
+        @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+        private List<Commande> commandes = new ArrayList<>();
 
 
         public Client(String email, String mdp, String nom, String prenom) {
