@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.*;
+import com.example.demo.producer.CommandeProducer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,10 +11,12 @@ public class CommandeService {
 
     private final CommandeRepository commanderepo;
     private final LigneCommandeRepository ligneRepo;
+    private final CommandeProducer producer;
 
-    public CommandeService(CommandeRepository crepo, LigneCommandeRepository ligneRepo){
+    public CommandeService(CommandeRepository crepo, LigneCommandeRepository ligneRepo, CommandeProducer producer){
         this.commanderepo =crepo;
         this.ligneRepo = ligneRepo;
+        this.producer = producer;
     }
 
     /*public Commande creerCommande(){
@@ -37,6 +40,7 @@ public class CommandeService {
     public Commande creerCommandePourClient(Client client) {
         Commande commande = new Commande();
         commande.setClient(client);
+        commande.setStatut("En Attente");
         return commanderepo.save(commande);
     }
 
@@ -67,4 +71,25 @@ public class CommandeService {
         return commanderepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Commande inexistante"));
     }
+
+    public void soumettreCommande(Integer id) {
+        Commande commande = commanderepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Commande introuvable"));
+
+        if (!"EN_ATTENTE".equals(commande.getStatut())) {
+            return;
+        }
+
+        // changer le statut
+        commande.setStatut("Envoyee");
+        commanderepo.save(commande);
+
+        // envoyer le message Kafka
+
+        for (LigneCommande ligne : commande.getLignes()) {
+            String message = ligne.getIdLigne() + "," + ligne.getQuantite();
+            producer.envoyerCommande(message);
+        }
+    }
+
 }

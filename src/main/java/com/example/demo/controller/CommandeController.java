@@ -104,5 +104,15 @@ public class CommandeController {
         return mv;
     }
 
+    @PostMapping("/{id}/soumettre")
+    public RedirectView soumettreCommande(@PathVariable Integer id) {
+        cs.soumettreCommande(id);
+        return new RedirectView("/store/commande");
+    }
+
+
+
+
+
 
 }

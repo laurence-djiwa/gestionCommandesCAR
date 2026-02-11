@@ -19,6 +19,8 @@ public class Commande {
     @JoinColumn(name = "client_email") // lien vers client
     private Client client;
 
+    private String statut;
+
     public Commande(){
     }
 
@@ -36,6 +38,13 @@ public class Commande {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public void setStatut(String statut){
+        this.statut = statut;
+    }
+    public String getStatut(){
+        return statut;
     }
 
     public void ajouterLigne(LigneCommande ligne){
