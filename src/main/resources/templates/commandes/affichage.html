@@ -54,12 +54,13 @@
     </form>
 
     <div>
-        <a th:href="@{/store/commande/{id}/imprimer(id=${com.id})}">Imprimer</a>
+        <p>
+            <a th:href="@{/store/commande/{id}/imprimer(id=${com.id})}">Imprimer</a>
+            <form th:action="@{/store/commande/{id}/soumettre(id=${com.id})}" method="post">
+                <button type="submit">Soumettre</button>
+            </form>
+        </p>
     </div>
-    <form th:action="@{/store/commande/{id}/soumettre(id=${com.id})}" method="post">
-        <button type="submit">Soumettre</button>
-    </form>
-
     <hr>
 </div>
 </body>

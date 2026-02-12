@@ -76,7 +76,7 @@ public class CommandeService {
         Commande commande = commanderepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Commande introuvable"));
 
-        if (!"EN_ATTENTE".equals(commande.getStatut())) {
+        if (!"En Attente".equals(commande.getStatut())) {
             return;
         }
 
@@ -87,7 +87,7 @@ public class CommandeService {
         // envoyer le message Kafka
 
         for (LigneCommande ligne : commande.getLignes()) {
-            String message = ligne.getIdLigne() + "," + ligne.getQuantite();
+            String message = ligne.getLibelle() + "," + ligne.getQuantite();
             producer.envoyerCommande(message);
         }
     }
